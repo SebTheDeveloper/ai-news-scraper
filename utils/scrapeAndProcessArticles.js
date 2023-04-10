@@ -2,7 +2,7 @@ import summarize from '../utils/summarize.js';
 import parseCategoriesFromSummary from '../utils/parseCategoriesFromSummary.js';
 
 
-export default async function scrapeAndProcessArticles(articles, scrapeArticleText, db) {
+export default async function scrapeAndProcessArticles(db, articles, scrapeArticleText) {
 
   const collection = db.db.collection('dashboard');
   const matchingDocuments = await collection.find().toArray();

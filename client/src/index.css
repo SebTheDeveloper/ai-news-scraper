@@ -1,11 +1,18 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.4;
   font-weight: 400;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  --darkGrey: rgb(18, 18, 18);
+  --overlay8: rgba(255, 255, 255, 0.08);
+  --overlay4: rgba(255, 255, 255, 0.04);
+  --overlay2: rgba(255, 255, 255, 0.02);
+  --primary: hsl(55, 80%, 76%);
+  --errorRed: rgb(207, 102, 121);
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -14,56 +21,327 @@
   -webkit-text-size-adjust: 100%;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  color: white;
+  background-color: var(--darkGrey);
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+.container {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 6fr;
+}
+
+.sidebar {
+  position: relative;
+  padding: 1rem 2rem 1.5rem 0rem;
+  background-color: var(--overlay4);
+}
+
+#icon-dashboard {
+  fill: var(--primary);
+  width: 32px;
+}
+
+.logo {
+  font-size: 1.25rem;
+  color: var(--primary);
+}
+
+.logo > div {
+  margin-right: auto;
+}
+
+.logo,
+ul {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  align-items: center;
+  justify-items: center;
+  padding: 15px;
+  margin: 0;
+}
+
+ul {
+  margin-top: 1.5rem;
+  margin-right: auto;
+  row-gap: 1.4rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  opacity: 0.95;
+}
+
+ul img {
+  width: 18px;
+}
+
+ul li {
+  cursor: pointer;
+  list-style: none;
+  transition: all 0.3s;
+  margin-right: auto;
+  margin-left: 0.6rem;
+}
+
+ul li:nth-of-type(7),
+ul img:nth-of-type(7) {
+  margin-top: 5rem;
+}
+
+ul li:hover {
+  transform: scale(1.1);
+}
+
+.main {
+  display: grid;
+  grid-template-rows: auto 4fr;
+}
+
+.top {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  align-items: center;
+  padding: 0.5rem 5rem 1rem 2.5rem;
+  box-shadow: 12px 5px 10px #00000070;
+  background-color: var(--overlay2);
+  z-index: 1;
+  font-weight: 500;
+  font-size: 1.2rem;
+}
+
+.top svg {
+  width: 32px;
+}
+
+.top svg path {
+  fill: white;
+}
+
+#profile-pic {
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  cursor: pointer;
+  opacity: 0.9;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.search input {
+  width: 70%;
+  border-radius: 20px;
+  border: 0;
+  padding: 0.5rem 1rem;
+}
+
+.greeting,
+.buttons {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.profile,
+.buttons {
+  justify-content: end;
+}
+
+.profile > p {
+  padding-left: 0.8rem;
 }
 
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+  padding: 0.7em 1.4em;
+  border-radius: 50px;
+  border: 1px solid var(--primary);
+  background-color: transparent;
+  color: var(--primary);
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  transition: 0.5s;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.greeting {
+  line-height: 1.5rem;
+  font-size: 1.5rem;
+}
+
+.greeting span {
+  font-size: 1rem;
+}
+
+
+/* Main */
+.bottom {
+  display: grid;
+  grid-template-columns: 6fr 1fr;
+  padding: 1.5rem 2.5rem;
+  gap: 1rem;
+}
+
+.articles-section {
+  margin-right: 3.5rem;
+}
+
+.articles-section > select {
+  grid-column: span 2;
+  margin-bottom: 2rem;
+}
+
+.articles-section > p {
+  grid-column: span 2;
+  font-weight: 500;
+  font-size: 1.25rem;
+}
+
+.view-articles {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+  font-size: 1.25rem;
+}
+
+.view-articles p {
+  display: inline;
+  margin-right: 0.7rem;
+}
+
+.view-articles select {
+  padding: 0.5em 0.2em;
+  text-align: center;
+}
+
+.articles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2.5rem;
+}
+
+.article {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  border-left: 1px solid var(--primary);
+  padding:  1.8rem;
+  font-size: 1.25rem;
+  background-color: var(--overlay8);
+}
+
+.article h3 {
+  margin: 0;
+  font-size: 1.4em;
+  letter-spacing: 2px;
+}
+
+.article .content {
+  padding-top: 1rem;
+}
+
+.article p {
+  opacity: 0.95;
+  color: white;
+  font-size: 0.9em;
+}
+
+.article p span {
+  color: var(--primary);
+  font-size: 1.05em;
+  font-weight: 600;
+  margin-right: 0.1rem;
+}
+
+.article a {
+  display: flex;
+}
+
+.article-icons {
+  display: flex;
+  justify-content: end;
+  padding: 0.5rem 1rem 1rem 1rem;
+  gap: 15px;
+}
+
+.article-icons > * {
+  width: 25px;
+  opacity: 0.8;
+  cursor: pointer;
+}
+.article-icons svg {
+  fill: white;
+}
+
+.article,
+.feature-card,
+.trending-card {
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.85);
+  transition: 0.3s;
+}
+
+.article:hover,
+button:hover {
+  transform: scale(1.02);
+}
+.feature-card,
+.trending-card {
+  background-color: var(--overlay4);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.right-sidebar > p {
+  font-weight: 500;
+  font-size: 1.25rem;
+}
+
+.right-sidebar {
+  display: flex;
+  flex-direction: column;
+}
+
+.feature-card {
+  padding: 1rem 2rem;
+}
+
+.feature:not(:last-of-type) {
+  border-bottom: 1px solid #00000050;
+}
+
+.feature :first-child {
+  font-weight: 500;
+}
+
+#trending {
+  margin-top: 1.5rem;
+}
+
+.trending-card {
+  padding: 1.5rem;
+  display: grid;
+  justify-items: center;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.trending-topic {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  margin-right: auto;
+  gap: 0.25rem;
+  width: 100%;
+}
+
+.trending-topic > img {
+  width: 25px;
+  height: 25px;
+  border-radius: 50px;
+  cursor: pointer;
+}
+
+.trending-topic > p {
+  opacity: 0.8;
 }

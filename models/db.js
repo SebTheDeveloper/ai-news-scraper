@@ -21,6 +21,7 @@ export const connectToDb = async () => {
     };
 
     console.log('Connected to the database');
+    return dbConnection.client;
   } catch (err) {
     console.log(err);
     throw err;

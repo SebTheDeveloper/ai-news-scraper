@@ -61,7 +61,7 @@ async function main() {
   try {
     await connectToDb();
     db = getDb();
-    const newArticlesCount= await scrapeAndProcessArticles(articles, scrapeArticleText, db);
+    const newArticlesCount= await scrapeAndProcessArticles(db, articles, scrapeArticleText);
     console.log(`Added ${newArticlesCount} ${source} articles to the database`);
   } catch (error) {
     console.error("Error:", error);
