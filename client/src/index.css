@@ -39,6 +39,18 @@ body {
   background-color: var(--overlay4);
 }
 
+.sidebar svg {
+  width: 18px;
+}
+
+.sidebar svg path {
+  fill: white;
+}
+
+#tg-arrow path {
+  fill: #1b1b1b;
+}
+
 #icon-dashboard {
   fill: var(--primary);
   width: 32px;
@@ -47,10 +59,12 @@ body {
 .logo {
   font-size: 1.25rem;
   color: var(--primary);
+  padding-left: 15px;
 }
 
-.logo > div {
+.logo > h1 {
   margin-right: auto;
+  font-size: 1.5rem;
 }
 
 .logo,
@@ -59,21 +73,17 @@ ul {
   grid-template-columns: 1fr 2fr;
   align-items: center;
   justify-items: center;
-  padding: 15px;
   margin: 0;
 }
 
 ul {
+  padding: 15px;
   margin-top: 1.5rem;
   margin-right: auto;
   row-gap: 1.4rem;
   font-size: 1.1rem;
   font-weight: 500;
   opacity: 0.95;
-}
-
-ul img {
-  width: 18px;
 }
 
 ul li {
@@ -85,7 +95,7 @@ ul li {
 }
 
 ul li:nth-of-type(7),
-ul img:nth-of-type(7) {
+ul svg:nth-of-type(7) {
   margin-top: 5rem;
 }
 
@@ -110,20 +120,30 @@ ul li:hover {
   font-size: 1.2rem;
 }
 
+#welcome-message {
+  display: flex;
+  align-items: center;
+  gap: 0.25em;
+}
+
+#welcome-message svg {
+  width: 1.3em;
+}
+#welcome-message svg path {
+  fill: var(--primary);
+}
+
+.top p {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
 .top svg {
   width: 32px;
 }
 
 .top svg path {
   fill: white;
-}
-
-#profile-pic {
-  width: 50px;
-  height: 50px;
-  border-radius: 50px;
-  cursor: pointer;
-  opacity: 0.9;
 }
 
 .search {
@@ -133,6 +153,7 @@ ul li:hover {
 }
 
 .search input {
+  background-color: rgb(59, 59, 59);
   width: 70%;
   border-radius: 20px;
   border: 0;
@@ -165,16 +186,6 @@ button {
   transition: 0.5s;
 }
 
-.greeting {
-  line-height: 1.5rem;
-  font-size: 1.5rem;
-}
-
-.greeting span {
-  font-size: 1rem;
-}
-
-
 /* Main */
 .bottom {
   display: grid;
@@ -187,13 +198,7 @@ button {
   margin-right: 3.5rem;
 }
 
-.articles-section > select {
-  grid-column: span 2;
-  margin-bottom: 2rem;
-}
-
 .articles-section > p {
-  grid-column: span 2;
   font-weight: 500;
   font-size: 1.25rem;
 }
@@ -201,13 +206,21 @@ button {
 .view-articles {
   display: flex;
   align-items: center;
-  margin-bottom: 2rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+  margin-bottom: 3rem;
   font-size: 1.25rem;
 }
-
+.view-articles select {
+  background-color: #3b3b3b;
+  color: white;
+  border: 1px solid white;
+}
 .view-articles p {
   display: inline;
   margin-right: 0.7rem;
+  font-size: 1.6rem;
+  font-weight: 300;
 }
 
 .view-articles select {
@@ -239,6 +252,14 @@ button {
 
 .article .content {
   padding-top: 1rem;
+}
+
+.article .content * {
+  transition: all 0.2s ease-in-out;
+}
+
+.article .content :not(.highlighted) {
+  opacity: 0.92;
 }
 
 .article p {

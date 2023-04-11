@@ -27,9 +27,16 @@ router.post('/question', (req, res) => {
   }  
 });
 
-router.get('/news/today/all', async (req, res) => {
+router.get('/news/:timeframe', async (req, res) => {
   try {
-    const dailyArticles = await getDailyArticles();
+    const timeframe = req.params.timeframe;
+    
+    if (!['today', 'yesterday', 'weekly'].includes(timeframe)) {
+      res.status(400).send({ message: 'Invalid timeframe value' });
+      return;
+    }
+
+    const dailyArticles = await getDailyArticles(timeframe);
     res.status(200).send(dailyArticles);
   } catch (error) {
     console.log(error);

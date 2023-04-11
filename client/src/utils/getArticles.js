@@ -1,6 +1,6 @@
-export default async function getTodaysArticles() {
+export default async function getArticles(articleTimeframe) {
   try {
-    const response = await fetch('http://localhost:3000/api/news/today/all');
+    const response = await fetch(`http://localhost:3000/api/news/${articleTimeframe}`);
 
     if (!response.ok) {
       throw new Error(`An error occurred: ${response.statusText}`);

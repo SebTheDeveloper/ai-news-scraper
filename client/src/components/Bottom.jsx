@@ -1,9 +1,9 @@
-import Articles from "./Articles";
+import ArticlesWrapper from "./ArticlesWrapper";
 
 export default function Bottom() {
   return (
   <div className="bottom">
-  <Articles />
+  <ArticlesWrapper />
   <div className="right-sidebar">
                     <p>Features</p>
                     <div className="feature-card">
