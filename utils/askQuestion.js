@@ -77,17 +77,18 @@ async function processQuestion(db, question, articleID) {
 
   } else {
     const article = await collection.findOne({ _id: new ObjectId(articleID) });
+    const fullArticleText = await scrapeArticleText(article.link);
+
     prompt += `
       Title: ${article.title}
       Source: ${article.source}
       Date: ${article.createdOn.date}
       Summary: ${article.summary}
+      Full Article Text: ${fullArticleText}
       `;
 
-      console.log(prompt);
-
     answer = await getAnswer([
-      {"role": "system", "content": `You are a helpful AI assistant that answers questions from the user based on a news article provided to you. The user will first give you the Title, Source, Date and Summary of each article. Then the user will ask a question or multiple questions like the following example- Question: What are the major arguments from each article on this topic? How long after the first article was published was the second article published?`},
+      {"role": "system", "content": `You are a helpful AI assistant that answers questions from the user based on a news article provided to you. The user will first give you the Title, Source, Date and Summary of each article. You will also receive the Full Article Text to review and answer questions based on. Then the user will ask a question or multiple questions like the following example- Question: What are the major arguments and opinions from this article?`},
       {"role": "user", "content": `${prompt}
       
       Question: ${question}`}
@@ -137,15 +138,19 @@ async function processDailyQuestion(db, question, date) {
 export default async function askQuestion({ question, articleID, date = undefined, dailyNews = false }) {
   try {
     const db = getDb();
-
+    let answer;
+    
     if (dailyNews) {
-      const answer = await processDailyQuestion(db, question, date);
+      answer = await processDailyQuestion(db, question, date);
       console.log(answer);
     } else {
-      const answer = await processQuestion(db, question, articleID);
+      answer = await processQuestion(db, question, articleID);
       console.log(answer);
     }
+
+    return answer;
   } catch (error) {
     console.error("Error processing question:", error);
+    return null;
   }
 }

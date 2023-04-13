@@ -17,7 +17,7 @@ export default async function getDailyArticles(filter) {
     const db = getDb();
     const collection = db.db.collection('dashboard');
 
-    articles = await collection.find({ 'createdOn.date': date }).toArray();
+    articles = await collection.find({ 'createdOn.date': date }).sort({ 'createdOn.time': -1 }).toArray();
   } catch (error) {
     console.error("Error:", error);
   } 

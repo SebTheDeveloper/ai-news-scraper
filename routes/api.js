@@ -7,17 +7,21 @@ router.get('/', (req, res) => {
   res.send('This is for APIs');
 });
 
-router.post('/question', (req, res) => {
+router.post('/question', async (req, res) => {
   const question = req.body.question;
   const articleID = req.body.articleID;
 
   try {
     if (question && articleID) {
-      askQuestion({ question, articleID });
-      res.sendStatus(200);
+      const response = await askQuestion({ question, articleID });
+      if (response) {
+        res.status(200).json({answer: response})
+      }
     } else if (question && req.body.daily) {
-      askQuestion({ question, dailyNews: true});
-      res.sendStatus(200);
+      const response = await askQuestion({ question, dailyNews: true});
+      if (response) {
+        res.status(200).json({answer: response})
+      }
     } else {
       throw new Error('Must provide question and articleID');
     }
