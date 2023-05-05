@@ -26,9 +26,9 @@ export default function ArticlesWrapper() {
         </select>
       </div>
       <div className='articles'>
-        {articles.map(item => (
-        <Suspense key={item._id} fallback={<div>Loading article...</div>}>
-        <LazyArticle item={item} />
+        {articles.map(article => (
+        <Suspense key={article._id} fallback={<div>Loading article...</div>}>
+        <LazyArticle article={article} />
         </Suspense>
         ))}
         {articles.length === 0 && <div>No articles found...</div>}
