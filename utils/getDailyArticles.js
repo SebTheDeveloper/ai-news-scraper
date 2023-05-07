@@ -5,8 +5,8 @@ export default async function getDailyArticles(filter) {
   let date;
   if (filter === 'yesterday') {
     date = `${now.getMonth() + 1}-${now.getDate() - 1}-${now.getFullYear()}`;
-  } else if (filter === 'weekly') {
-    return 'working on it';
+  } else if (filter === 'favorites') {
+    return 'working on favorites';
   } else {
     date = `${now.getMonth() + 1}-${now.getDate()}-${now.getFullYear()}`;
   }

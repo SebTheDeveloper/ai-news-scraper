@@ -88,7 +88,7 @@ async function processQuestion(db, question, articleID) {
       `;
 
     answer = await getAnswer([
-      {"role": "system", "content": `You are a helpful AI assistant that answers questions from the user based on a news article provided to you. The user will first give you the Title, Source, Date and Summary of each article. You will also receive the Full Article Text to review and answer questions based on. Then the user will ask a question or multiple questions like the following example- Question: What are the major arguments and opinions from this article?`},
+      {"role": "system", "content": `You are a helpful AI assistant that answers questions from the user based on a news article provided to you. The user will first give you the Title, Source, Date and Summary of each article. You will also receive the Full Article Text to review and answer questions based on. Then the user will ask a question or multiple questions like the following example- [Question: What are the major arguments and opinions from this article?] Your answers will be succinct and must be broken up into readable chunks using 2 <br /> tags to separate blocks of text.`},
       {"role": "user", "content": `${prompt}
       
       Question: ${question}`}

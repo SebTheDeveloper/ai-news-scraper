@@ -4,14 +4,14 @@ import getArticles from '../utils/getArticles';
 export default function useArticlesFetch(articleTimeframe) {
   const [articles, setArticles] = useState([]);
 
-  useEffect(() => {
-    async function fetchArticles() {
-      const fetchedArticles = await getArticles(articleTimeframe);
-      setArticles(fetchedArticles);
-    }
+  const fetchArticles = async (articleTimeframe) => {
+    const fetchedArticles = await getArticles(articleTimeframe);
+    setArticles(fetchedArticles);
+  };
 
-    fetchArticles();
+  useEffect(() => {
+    fetchArticles(articleTimeframe);
   }, [articleTimeframe]);
 
-  return [articles, setArticles];
+  return [articles, setArticles, fetchArticles];
 }

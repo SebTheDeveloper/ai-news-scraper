@@ -1,5 +1,5 @@
 import { load } from 'cheerio';
-import { connectToDb, getDb } from '../models/db.js';
+import { getDb } from '../models/db.js';
 import fetchHTML from '../utils/fetchHTML.js';
 import scrapeAndProcessArticles from '../utils/scrapeAndProcessArticles.js';
 

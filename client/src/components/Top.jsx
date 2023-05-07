@@ -10,9 +10,7 @@ export default function Top() {
         </div>
       </div>
       <div className="buttons">
-        <button>New</button>
-        <button>Upload</button>
-        <button>Share</button>
+        <button>View the Source Code</button>
       </div>
       <div className="search">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">

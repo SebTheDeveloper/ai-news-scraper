@@ -1,5 +1,5 @@
 import { load } from 'cheerio';
-import { connectToDb, getDb } from '../models/db.js';
+import { getDb } from '../models/db.js';
 import fetchHTML from '../utils/fetchHTML.js';
 import scrapeAndProcessArticles from '../utils/scrapeAndProcessArticles.js';
 
@@ -51,20 +51,18 @@ async function scrapeArticleText(url) {
 
 const articles = await scrapeTechCrunch(techCrunchUrl);
 
-let db;
 
 async function main() {
   try {
-    await connectToDb();
-    db = getDb();
+    const db = getDb();
     const newArticlesCount= await scrapeAndProcessArticles(db, articles, scrapeArticleText);
     console.log(`Added ${newArticlesCount} ${source} articles to the database`);
   } catch (error) {
     console.error("Error:", error);
+    return false;
   } finally {
-    db.client.close();
-    console.log('Disconnected from database');
+    return true;
   }
 }
 
-main();
+export default main;

@@ -95,8 +95,8 @@ ul li {
   margin-left: 0.6rem;
 }
 
-ul li:nth-of-type(7),
-ul svg:nth-of-type(7) {
+ul li:nth-of-type(5),
+ul svg:nth-of-type(5) {
   margin-top: 5rem;
 }
 
@@ -241,7 +241,7 @@ button {
 }
 
 .article {
-  max-width: 75%;
+  max-width: 80%;
   display: flex;
   flex-direction: column;
   justify-content: start;
@@ -249,6 +249,15 @@ button {
   padding:  1.8rem;
   font-size: 1.25rem;
   background-color: var(--overlay8);
+  animation: fade-in 0.8s ease-in-out;
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .article h3 {
@@ -292,10 +301,6 @@ button {
   border-color: white;
   border-radius: 6px;
 }
-
-/* .answer {
-  padding: 1.25rem;
-} */
 
 #researching {
   animation: loading 2s ease-in-out infinite;
@@ -396,7 +401,7 @@ button:hover {
   padding: 1.5rem;
 }
 
-@media (max-width: 520px) {
+@media (max-width: 550px) {
   .container, .bottom {
     grid-template-columns: 1fr;
   }
@@ -405,6 +410,12 @@ button:hover {
   }
   .article {
     max-width: 100%;
+  }
+  .top {
+    display: block;
+  }
+  .feature-card, .buttons {
+    display: none;
   }
 }
 
