@@ -1,13 +1,12 @@
 import { useState } from "react";
-import askQuestion from "../utils/askQuestionFromID";
-import useTypewriterEffect from '../hooks/useTypewriterEffect';
+import askQuestion from "../utils/askQuestion";
+import Convo from "./Convo";
 
 export default function Article({ article: { _id, title, createdOn, source, summary, categories, link } }) {
   const [questionText, setQuestionText] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [answer, setAnswer] = useState('');
-  const [fadeOut, setFadeOut] = useState(false);
-  const typedAnswer = useTypewriterEffect(answer);
+  const [userSubmittedText, setUserSubmittedText] = useState([]);
+  const [agentSubmittedText, setAgentSubmittedText] = useState([]);
+  const [convoHistory, setConvoHistory] = useState([])
 
   function handleInputChange(event) {
     setQuestionText(event.target.value);
@@ -15,12 +14,24 @@ export default function Article({ article: { _id, title, createdOn, source, summ
 
   async function handleQuestionSubmit(question, articleID, event) {
     event.preventDefault();
-    setIsLoading(true);
+    if (questionText === '') {
+      return
+    }
+
+    setUserSubmittedText([...userSubmittedText, questionText]);
+    const response = await askQuestion(question, articleID, convoHistory);
     setQuestionText('');
-    const response = await askQuestion(question, articleID);
-    setIsLoading(false);
-    setFadeOut(true);
-    setAnswer(response);
+    setAgentSubmittedText([...agentSubmittedText, response]);
+    setConvoHistory(currHistory => {
+      if (currHistory.length > 0) {
+        return [...currHistory, {
+          user: questionText,
+          agent: response
+        }]
+      } else {
+        return [{user: questionText, agent: response}]
+      }
+    })
   }
 
   return (
@@ -34,7 +45,7 @@ export default function Article({ article: { _id, title, createdOn, source, summ
       </div>
       <div className="article-card-bottom">
         <div className="ask-question">
-          {!(answer || isLoading) && <>
+          {userSubmittedText.length === 0 && <>
             <form onSubmit={event => handleQuestionSubmit(questionText, _id, event)}>
               <input
                 type="text"
@@ -44,7 +55,15 @@ export default function Article({ article: { _id, title, createdOn, source, summ
               <button type="submit">Ask a question</button>
             </form>
           </>}
-          <div className="answer" style={fadeOut ? {color:'var(--primary)'} : {}} id={isLoading ? "researching" : answer && "answer"}>{isLoading ? 'researching...' : typedAnswer}</div>
+          <div className="convo">
+            <Convo
+              questionText={questionText}
+              id={_id}
+              userSubmittedText={userSubmittedText}
+              agentSubmittedText={agentSubmittedText}
+              handleQuestionSubmit={handleQuestionSubmit}
+              handleInputChange={handleInputChange} />
+          </div>
         </div>
         <div className='article-icons'>
           <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>

@@ -8,16 +8,17 @@ export default function Bottom() {
                     <div className="feature-card">
                         <p className="section-title">Features</p>
                         <div className="feature">
-                            <p>Site Maintenance</p>
-                            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facilis obcaecati animi aut consequatur quasi doloremque aliquid explicabo ad, provident exercitationem.</p>
+                            <p>Daily TLDR</p>
+                            <p>Get a quick summary of today's news based on your interests</p>
                         </div>
                         <div className="feature">
-                            <p>Community Share Day</p>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo modi, delectus vitae nihil provident sunt magnam. Nobis, quo.</p>
+                            <p>Ask Questions</p>
+                            <p>Inquire for more information from your AI News Buddy</p>
                         </div>
                         <div className="feature">
-                            <p>Updated Privacy Policy</p>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero quod, iure vel autem ipsam fugit adipisci cumque omnis obcaecati.</p>
+                            <p>Set Alerts *Coming Soon*</p>
+                            <p>This feature will allow you to set up notifications for your favorite topics
+                            </p>
                         </div>
                     </div>
                     <div className="metrics-card">

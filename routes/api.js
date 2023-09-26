@@ -11,10 +11,11 @@ router.get('/', (req, res) => {
 router.post('/question', async (req, res) => {
   const question = req.body.question;
   const articleID = req.body.articleID;
+  const convoHistory = req.body.convoHistory;
 
   try {
     if (question && articleID) {
-      const response = await askQuestion({ question, articleID });
+      const response = await askQuestion({ question, articleID, convoHistory });
       if (response) {
         res.status(200).json({answer: response})
       }

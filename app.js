@@ -3,6 +3,7 @@ import cors from 'cors';
 import { connectToDb } from './models/db.js';
 import dashboardRouter from'./routes/dashboard.js';
 import apiRouter from'./routes/api.js';
+import startTelegramBot from './controllers/telegramBot.js';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -21,6 +22,8 @@ app.use('/api', apiRouter);
 const startServer = async () => {
    try {
      const dbClient = await connectToDb();
+
+     startTelegramBot()
  
      const handleShutdown = async (signal) => {
        console.log(`\n${signal} signal received. Closing MongoDB connection and shutting down server...`);
@@ -38,7 +41,7 @@ const startServer = async () => {
      process.on('uncaughtException', handleShutdown);
  
      app.listen(port, () => {
-       console.log(`Server running on port ${port}`);
+       console.log(`Backend server running on port ${port}`);
      });
    } catch (error) {
      console.error('Failed to connect to the database:', error);

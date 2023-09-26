@@ -9,9 +9,11 @@ export default function Top() {
           </svg>
         </div>
       </div>
-      <div className="buttons">
-        <button>View the Source Code</button>
-      </div>
+      <a href="https://github.com/sebdoubleu/ai-news-scraper/" target="_blank">
+        <div className="buttons">
+          <button>Github</button>
+        </div>
+      </a>
       <div className="search">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
           <title>Search Articles</title>

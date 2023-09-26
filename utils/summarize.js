@@ -27,7 +27,7 @@ const summarize = async (articleText, maxAttempts = 3, retryAttempts = 0) => {
    {"role": "system", "content": `You are a helpful AI assistant that summarizes news articles in short and easy to understand explanations. After the summary, you also provide an array of categories that apply to the article. You must select 1 or more out of the following Categories: ${selectionOfCategories}`},
    {"role": "user", "content": `${articleText}
 
-   Can you provide a brief, simple summary of this article in 1 paragraph?  Also, please provide an array of applicable categories after the summary. Pick 1 or more of the following Categories: ${selectionOfCategories} and you must, with no exception, format it like the following example-
+   Can you provide a brief, simple summary of this article in 1 paragraph? Also, please provide an array of applicable categories after the summary. Pick 1 or more of the following Categories: ${selectionOfCategories} and you must, with no exception, format it like the following example-
 
    Categories: [Economy, AI, Venture Capital, Finance]`}
    ]);

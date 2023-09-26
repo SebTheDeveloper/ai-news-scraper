@@ -1,5 +1,5 @@
 :root {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   line-height: 1.4;
   font-weight: 400;
   box-sizing: border-box;
@@ -11,6 +11,7 @@
   --overlay4: rgba(255, 255, 255, 0.04);
   --overlay2: rgba(255, 255, 255, 0.02);
   --primary: hsl(55, 80%, 76%);
+  --user: hsl(227, 80%, 76%);
   --errorRed: rgb(207, 102, 121);
 
   color-scheme: light dark;
@@ -26,6 +27,10 @@ body {
   margin: 0;
   color: white;
   background-color: var(--darkGrey);
+}
+
+a {
+  text-decoration: none;
 }
 
 .container {
@@ -246,10 +251,10 @@ button {
   flex-direction: column;
   justify-content: start;
   border-left: 1px solid var(--primary);
-  padding:  1.8rem;
+  padding: 1.8rem;
   font-size: 1.25rem;
   background-color: var(--overlay8);
-  animation: fade-in 0.8s ease-in-out;
+  animation: fade-in 0.6s ease-in-out;
 }
 @keyframes fade-in {
   from {
@@ -291,12 +296,8 @@ button {
   margin-right: 0.1rem;
 }
 
-.ask-question {
-  overflow: hidden;
-}
-
-.ask-question input[type="text"],
-.ask-question button {
+.article input[type="text"],
+.article button {
   color: white;
   border-color: white;
   border-radius: 6px;
@@ -307,16 +308,47 @@ button {
   padding: 1.25rem;
 }
 
-#answer {
-  animation: reveal-answer 1.75s ease-in-out;
+.convo {
+  display: flex;
+  flex-direction: column;
+  font-size: 1.2rem;
+  padding: 1rem;
+}
+
+#agent,
+#user {
   padding: 1.75rem;
-  margin-top: 1.5rem;
   background-color: rgba(var(--darkGreyValues), 0.8);
-  box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.8);
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
   border-radius: 10px;
 }
 
-@keyframes reveal-answer {
+#agent {
+  margin: 1rem 0.3rem 1rem -0.3rem;
+  white-space: pre-wrap;
+}
+
+#user {
+  display: none;
+  margin: 1rem -0.3rem 1rem auto;
+  padding-left: 1.75em;
+  flex-shrink: 1;
+}
+
+#user, .agent-response {
+  animation: fade-in 0.5s ease-in-out;
+}
+
+.agent-response {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.agent-response input {
+  padding: 0.6em 1.2em;
+}
+
+@keyframes fade-answer {
   0% {
     opacity: 0;
   }
@@ -364,7 +396,7 @@ button {
 
 .article:hover,
 button:hover {
-  transform: scale(1.02);
+  transform: scale(1.01);
 }
 .feature-card,
 .metrics-card {
@@ -401,8 +433,13 @@ button:hover {
   padding: 1.5rem;
 }
 
-@media (max-width: 550px) {
-  .container, .bottom {
+@media (max-width: 800px) {
+  .logo,
+  ul {
+    grid-template-columns: 1fr 1fr;
+  }
+  .container,
+  .bottom {
     grid-template-columns: 1fr;
   }
   .articles-section {
@@ -410,15 +447,16 @@ button:hover {
   }
   .article {
     max-width: 100%;
+    padding: 1.5rem 1.25rem;
   }
   .top {
     display: block;
   }
-  .feature-card, .buttons {
+  .feature-card,
+  .buttons {
     display: none;
   }
-}
-
-@media screen {
-  
+  .bottom {
+    padding: 1.5rem 1.25rem;
+  }
 }
