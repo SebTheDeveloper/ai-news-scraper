@@ -63,6 +63,7 @@ a {
 }
 
 .logo {
+  cursor: pointer;
   font-size: 1.25rem;
   color: var(--primary);
   padding-left: 15px;
@@ -95,13 +96,13 @@ ul {
 ul li {
   cursor: pointer;
   list-style: none;
-  transition: all 0.3s;
+  transition: all 0.1s;
   margin-right: auto;
   margin-left: 0.6rem;
 }
 
-ul li:nth-of-type(5),
-ul svg:nth-of-type(5) {
+ul li:nth-of-type(4),
+ul svg:nth-of-type(4) {
   margin-top: 5rem;
 }
 
@@ -335,7 +336,8 @@ button {
   flex-shrink: 1;
 }
 
-#user, .agent-response {
+#user,
+.agent-response {
   animation: fade-in 0.5s ease-in-out;
 }
 
@@ -433,6 +435,21 @@ button:hover {
   padding: 1.5rem;
 }
 
+.markdown {
+  padding: 2rem;
+  color: var(--primary);
+  animation: fade-in 0.4s ease-in-out;
+  line-height: 1.75rem;
+}
+
+.markdown p {
+  margin-bottom: 2rem;
+}
+
+.markdown h1 {
+  line-height: 3rem;
+}
+
 @media (max-width: 800px) {
   .logo,
   ul {
@@ -458,5 +475,11 @@ button:hover {
   }
   .bottom {
     padding: 1.5rem 1.25rem;
+  }
+}
+
+@media (max-width: 450px) {
+  .markdown {
+    padding: 1.5rem;
   }
 }

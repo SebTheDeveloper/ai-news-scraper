@@ -1,4 +1,3 @@
-import { useState } from "react";
 import AgentText from "./AgentText";
 import UserText from "./UserText";
 
@@ -11,7 +10,7 @@ export default function Convo({
   handleInputChange,
 }) {
 
-  return userSubmittedText.map((userText: string, index: number) => {
+  return userSubmittedText.map((userText, index) => {
     const isLastTextNode = index + 1 === userSubmittedText.length;
 
     return (

@@ -1,6 +1,15 @@
 import ArticlesWrapper from "./ArticlesWrapper";
+import Tldr from "./Tldr";
 
-export default function Bottom() {
+export default function Bottom({ isTldr, isFavorites }) {
+    if (isTldr) {
+        return <Tldr />
+    }
+
+    if (isFavorites) {
+        return <>Favorites</>
+    }
+    
   return (
   <div className="bottom">
   <ArticlesWrapper />
