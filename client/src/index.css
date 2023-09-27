@@ -196,14 +196,14 @@ button {
 /* Main */
 .bottom {
   display: grid;
-  grid-template-columns: 6fr 1fr;
+  grid-template-columns: 5fr 1fr;
   padding: 1.5rem 2.5rem;
   padding-bottom: 4rem;
   gap: 1rem;
 }
 
 .articles-section {
-  margin-right: 3.5rem;
+  max-width: 60vw;
 }
 
 .articles-section > p {
@@ -410,7 +410,7 @@ button:hover {
   font-weight: 600;
   font-size: 1.4rem;
   margin: 1rem 0 2rem;
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.95);
 }
 
 .feature-card {
@@ -418,12 +418,23 @@ button:hover {
   margin-top: 1rem;
 }
 
-.feature:not(:last-of-type) {
-  border-bottom: 1px solid #00000050;
+.feature-card .section-title {
+  font-size: 1.6rem;
+  color: var(--primary);
 }
 
-.feature :first-child {
-  font-weight: 500;
+.feature {
+  font-size: 0.97em;
+  letter-spacing: 0.25px;
+}
+
+.feature :not(:first-child) {
+  opacity: 0.97;
+  font-size: 0.96em;
+}
+
+.feature:not(:last-of-type) {
+  border-bottom: 1px solid #00000050;
 }
 
 .metrics-card {
@@ -451,26 +462,69 @@ button:hover {
   line-height: 3rem;
 }
 
-@media (max-width: 800px) {
-  .logo,
-  ul {
-    grid-template-columns: 1fr 1fr;
+@media (max-width: 1200px) {
+  .main {
+    position: relative;
+    padding-bottom: 2rem;
+  }
+  .container {
+    grid-template-rows: 2fr 1fr 6fr;
   }
   .container,
   .bottom {
     grid-template-columns: 1fr;
   }
-  .articles-section {
+  #welcome-message p {
+    margin-top: 0;
+  }
+  .sidebar {
+    padding: 1.5rem 0rem 1.5rem 0rem;
+    background-color: var(--darkGrey);
+  }
+  .logo {
+    grid-template-columns: 1fr 1fr;
+  }
+  ul {
+    padding: 2rem 2rem 1rem 2rem;
     margin: 0;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  ul svg {
+    margin-left: auto;
+    margin-right: 1em;
+  }
+  ul li {
+    margin: 0;
+    margin-right: auto;
+  }
+  .top {
+    position: sticky;
+    top: 0;
+    padding: 1.5rem 2rem 1.5rem 2rem;
+    background-color: #1b1b1b;
+  }
+  .feature-card {
+    margin: 4rem 1rem 2rem 1rem;
+  }
+  .feature {
+    margin-bottom: 1.5rem;
+  }
+  .articles-section {
+    max-width: 100vw;
   }
   .article {
     max-width: 100%;
     padding: 1.5rem 1.25rem;
   }
+  .right-sidebar {
+    order: -1;
+  }
   .top {
     display: block;
   }
-  .feature-card,
   .buttons {
     display: none;
   }

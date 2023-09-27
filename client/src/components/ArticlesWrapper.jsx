@@ -38,7 +38,7 @@ export default function ArticlesWrapper({ categoryFilter }) {
       </div>
       {categoryFilter && <p style={{fontSize: '0.9em', opacity: '0.9', marginBottom: '2.5rem'}}>Filtering by Category: <span style={{color: 'var(--primary)'}}>{categoryFilter}</span> <span style={{opacity: '0.9', display: 'block', fontSize: '0.8em', marginTop: '0.8em'}}>{"("}{filteredArticles.length} {"results)"}</span></p>}
       <UserContextProvider>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div></div>}>
           <div className='articles'>
             {filteredArticles.map(article => (
               <LazyArticle key={article._id} article={article} />
