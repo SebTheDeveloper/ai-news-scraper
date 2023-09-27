@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import askQuestion from "../utils/askQuestion";
 import Convo from "./Convo";
 import { useUserContext } from "../context/UserContext";
@@ -8,10 +8,31 @@ export default function Article({ article }) {
   const [userSubmittedText, setUserSubmittedText] = useState([]);
   const [agentSubmittedText, setAgentSubmittedText] = useState([]);
   const [convoHistory, setConvoHistory] = useState([]);
+  const { toggleFavorite, itemInFavorites, getKeyOfFavorite } = useUserContext()
 
-  const { _id, title, createdOn, source, summary, categories, link } = article;
+  let { _id, title, createdOn, source, summary, categories, link, convo = null } = article;
 
-  const { toggleFavorite, itemInFavorites } = useUserContext()
+  const itemIsFavorited = itemInFavorites(article);
+
+  useEffect(() => {
+    if (itemIsFavorited) {
+      const existingConvo = getKeyOfFavorite("convo", article)
+
+      if (existingConvo && !convo) {
+        convo = existingConvo
+      }
+    }
+
+    if (userSubmittedText.length === 0 && convo != null) {
+      setUserSubmittedText(convo.userSubmittedText);
+      
+      if (convo.agentSubmittedText.length > 0) {
+        setAgentSubmittedText(convo.agentSubmittedText)
+      }
+
+      setConvoHistory(convo)
+    }
+  }, [])
 
   function handleInputChange(event) {
     setQuestionText(event.target.value);
@@ -62,6 +83,7 @@ export default function Article({ article }) {
           </>}
           <div className="convo">
             <Convo
+              existingChat={convo}
               questionText={questionText}
               article={article}
               userSubmittedText={userSubmittedText}
@@ -73,7 +95,7 @@ export default function Article({ article }) {
         <div className='article-icons'>
           <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' onClick={() => toggleFavorite(article)}>
             <title>Add to Favorites</title>
-            {itemInFavorites(article)
+            {itemIsFavorited
               ?
               <path d="M5.8 21L7.4 14L2 9.2L9.2 8.6L12 2L14.8 8.6L22 9.2L18.8 12H18C14.9 12 12.4 14.3 12 17.3L5.8 21M17.8 21.2L22.6 16.4L21.3 15L17.7 18.6L16.2 17L15 18.2L17.8 21.2" />
               :

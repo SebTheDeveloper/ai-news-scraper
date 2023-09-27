@@ -50,7 +50,7 @@ async function scrapeArticleText(url) {
 
 const articles = await scrapeTechCrunch(techCrunchUrl);
 
-async function main() {
+export default async function techCrunchScraper() {
   try {
     const db = getDb();
     const newArticlesCount = await scrapeAndProcessArticles(
@@ -65,5 +65,3 @@ async function main() {
     return false;
   }
 }
-
-export default main;

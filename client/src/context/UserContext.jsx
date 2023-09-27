@@ -9,22 +9,48 @@ export default function UserContextProvider({ children }) {
     []
   );
 
-  const [selectedTab, setSelectedTab] = useState("news");
-
   function itemInFavorites(item) {
     if (favorites.some(favorite => favorite._id === item._id)) return true;
     else return false
   }
 
-  function addToFavorites(item) {
-    if (favorites.some(favorite => favorite.title === item.title)) return;
+  function addToFavorites(item, convoHistory = null) {
+    if (!itemInFavorites(item)) {
+      if (convoHistory) {
+        updateConvoHistory(item, convoHistory)
+      }
 
-    setfavorites(currFavorites => [...currFavorites, item])
+      setfavorites(currFavorites => [...currFavorites, item])
+    }
+  }
+
+  function updateConvoHistory(item, convoHistory) {
+    setfavorites(currFavorites => {
+      const updatedFavorites = []
+      
+      for (const favorite of currFavorites) {
+        if (favorite._id === item._id) {
+          favorite.convo = convoHistory
+        }
+        updatedFavorites.push(favorite)
+      }
+
+      return updatedFavorites
+    })
+  }
+
+  function getKeyOfFavorite(key, item) {
+    if (!key || !item) return null
+
+    const convo = favorites.find(favorite => favorite._id === item._id)[key]
+    if (!convo) return null
+
+    return convo
   }
 
   function toggleFavorite(item) {
-    if (favorites.some(favorite => favorite.title === item.title)) {
-      setfavorites(currFavorites => currFavorites.filter(favorite => favorite.title !== item.title))
+    if (itemInFavorites(item)) {
+      setfavorites(currFavorites => currFavorites.filter(favorite => favorite._id !== item._id))
     } else {
       setfavorites(currFavorites => [...currFavorites, item])
     }
@@ -32,13 +58,13 @@ export default function UserContextProvider({ children }) {
 
   return (
     <UserContext.Provider value={{
-      selectedTab,
-      setSelectedTab,
       favorites,
       setfavorites,
       itemInFavorites,
       addToFavorites,
-      toggleFavorite
+      updateConvoHistory,
+      getKeyOfFavorite,
+      toggleFavorite,
     }}>
       {children}
     </UserContext.Provider>

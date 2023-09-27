@@ -1,7 +1,7 @@
-export default function UserText({ userText }) {
+export default function UserText({ userText, existingChat }) {
   if (userText) {
     return (
-      <div id="user" style={{color:'var(--user)', display:'flex'}}>
+      <div id="user" style={{color:'var(--user)', display:'flex', animation: "fade-in 0.3s ease-in-out"}}>
         {userText}
       </div>
     )

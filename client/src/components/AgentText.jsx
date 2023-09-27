@@ -1,19 +1,19 @@
 import useTypewriterEffect from '../hooks/useTypewriterEffect';
 
-export default function AgentText({ agentText, typewriter, isLastTextNode = false, _id, questionText, handleQuestionSubmit, handleInputChange }) {
+export default function AgentText({ existingChat, agentText, isLastTextNode = false, _id, questionText, handleQuestionSubmit, handleInputChange }) {
   let typedAnswer, isTyping;
 
-  if (agentText && typewriter) {
+  if (agentText && isLastTextNode) {
     ({ typedAnswer, isTyping } = useTypewriterEffect(agentText));
   }
 
   if (agentText) {
     return (
       <>
-        <div id='agent' style={{ color: 'var(--primary)', animation: isLastTextNode ? 'fade-in 1.75s ease-in-out' : "none" }}>
-          { typewriter ? typedAnswer : agentText }
+        <div id='agent' style={{ color: 'var(--primary)', animation: isLastTextNode ? 'fade-in 0.3s ease-in-out' : "none" }}>
+          { isLastTextNode ? typedAnswer : agentText }
         </div>
-        {typewriter && !isTyping &&
+        {isLastTextNode && !isTyping &&
           <form
             className="agent-response"
             onSubmit={(event) =>

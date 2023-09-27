@@ -1,8 +1,6 @@
-import { load } from "cheerio";
 import { getDb } from "../models/db.js";
 import { Configuration, OpenAIApi } from "openai";
 import { ObjectId } from "mongodb";
-import fetchHTML from "./fetchHTML.js";
 
 const openai = new OpenAIApi(
   new Configuration({ apiKey: process.env.OPENAI_API_KEY })
@@ -58,7 +56,7 @@ async function processQuestion(db, question, articleID, convoHistory) {
   const initialMessages = [
     {
       role: "system",
-      content: `You are a helpful AI assistant that answers questions from the user based on a news article provided to you. The user will first give you the Title, Source, Date and Summary of each article. You will also receive the Full Article Text to review and answer questions based on. Then the user will ask a question or multiple questions. If you do not have information to answer the question, you may respond based on what you already know. If applicable, you will also receive any prior conversation history between you and the user. Questions will be formatted like the following example- [Question: What are the major arguments and opinions from this article?] Your answers will be succinct and broken up into readable chunks.`,
+      content: `You are a helpful AI assistant that answers questions from the user based on a news article provided to you. The user will first give you the Title, Source, Date and Summary of each article. You will also receive the Full Article Text to review and answer questions based on. Then the user will ask a question or multiple questions. If you do not have information to answer the question, you may respond based on what you already know. If applicable, you will also receive any prior conversation history between you and the user. Questions will be formatted like the following example- [Question: What are the major arguments and opinions from this article?] Your answers will be succinct and broken up into readable chunks. Always give shorter answers rather than long ones.`,
     },
     {
       role: "user",
@@ -83,71 +81,14 @@ async function processQuestion(db, question, articleID, convoHistory) {
   return answer;
 }
 
-async function processDailyQuestion(db, question, date, convoHistory) {
-  if (!date) {
-    const now = new Date();
-    date = `${now.getMonth() + 1}-${now.getDate()}-${now.getFullYear()}`;
-  }
-
-  const collection = db.db.collection("dashboard");
-  const articles = await collection
-    .find({ "createdOn.date": date })
-    .limit(20)
-    .toArray();
-
-  let prompt = "";
-  let answer = "";
-  let articleNum = 1;
-
-  for (const article of articles) {
-    prompt += `
-    Article #${articleNum++}
-    Title: ${article.title}
-    Link: ${article.link}
-    Date: ${date}
-    Summary: ${article.summary}
-    `;
-  }
-
-  if (!prompt) return;
-
-  answer = await getAnswer([
-    {
-      role: "system",
-      content: `You are a helpful AI assistant that answers questions from the user based on a list of today's news articles.  You can only respond with information based on the articles that the user provides you. You must follow these instructions, do not reference information that is not in the context of the provided article list. The user will provide you with the Title, Link, Date and Summary of each article. If applicable, you will also receive any prior conversation history between you and the user. Then the user will ask a question or multiple questions like the following example- [Question: Can you break down all of the major news developments today into 3 paragraphs?] Your answers will be succinct and broken up into readable chunks.`,
-    },
-    {
-      role: "user",
-      content: `${prompt}
-        Prior Conversation History: ${
-          convoHistory.length > 0
-            ? formatConvoHistory(convoHistory)
-            : "no prior conversation history available."
-        }
-        Question: ${question}`,
-    },
-  ]);
-
-  return answer;
-}
-
 export default async function askQuestion({
   question,
   articleID,
   convoHistory,
-  date = undefined,
-  dailyNews = false,
 }) {
   try {
     const db = getDb();
-    let answer;
-
-    if (dailyNews) {
-      answer = await processDailyQuestion(db, question, date, convoHistory);
-    } else {
-      answer = await processQuestion(db, question, articleID, convoHistory);
-    }
-
+    const answer = await processQuestion(db, question, articleID, convoHistory);
     return answer;
   } catch (error) {
     console.error("Error processing question:", error);

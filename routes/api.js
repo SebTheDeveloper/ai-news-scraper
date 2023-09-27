@@ -59,4 +59,16 @@ router.get("/tldr", async (req, res) => {
   }
 });
 
+import techCrunchScraper from "../controllers/techCrunchScraper.js";
+
+router.get("/scrape", (req, res) => {
+  techCrunchScraper()
+    .then(() => {
+      res.status(200);
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    });
+});
+
 export default router;

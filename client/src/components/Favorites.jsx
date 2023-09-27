@@ -11,7 +11,7 @@ export default function Favorites() {
       {favorites.length > 0
         ?
         <div className="articles">
-        {favorites.map(favorite => <Article article={favorite} />)}
+        {favorites.map(favorite => <Article article={favorite} key={favorite._id} />)}
       </div>
       :
       <div style={{

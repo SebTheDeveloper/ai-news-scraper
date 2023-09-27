@@ -1,15 +1,18 @@
 import Sidebar from './Sidebar';
 import Main from './Main';
 import UserContextProvider from "../context/UserContext";
+import TabsContextProvider from '../context/TabsContext';
 
 export default function App() {
 
   return (
-    <UserContextProvider>
-      <div className='container'>
-        <Sidebar />
+    <div className='container'>
+      <TabsContextProvider>
+        <UserContextProvider>
+          <Sidebar />
+        </UserContextProvider>
         <Main />
-      </div>
-    </UserContextProvider>
+      </TabsContextProvider>
+    </div>
   );
 }
