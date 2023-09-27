@@ -4,12 +4,17 @@ import cron from "node-cron";
 import { connectToDb } from "./models/db.js";
 import dashboardRouter from "./routes/dashboard.js";
 import apiRouter from "./routes/api.js";
+import path from "path";
+import { fileURLToPath } from "url";
 import startTelegramBot from "./controllers/telegramBot.js";
 import getDailyTldr from "./utils/getDailyTldr.js";
 import techCrunchScraper from "./controllers/techCrunchScraper.js";
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -28,12 +33,15 @@ cron.schedule("0 8 * * *", async () => {
   }
 });
 
-app.get("/", (req, res) => {
-  res.redirect("/dashboard");
-});
-
 app.use("/dashboard", dashboardRouter);
 app.use("/api", apiRouter);
+
+const staticPath = path.resolve(__dirname, "client/dist");
+app.use(express.static(staticPath));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(staticPath, "index.html"));
+});
 
 const startServer = async () => {
   try {
