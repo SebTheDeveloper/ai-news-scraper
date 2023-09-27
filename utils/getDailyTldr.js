@@ -17,42 +17,33 @@ export default async function getDailyTldr() {
       .find({ "createdOn.date": today, tldr: { $exists: true } })
       .toArray();
 
-    if (existingTldr.length === 1 && existingTldr[0].tldr === "") {
-      return;
-    }
-
-    if (existingTldr.length >= 1) {
+    if (existingTldr.length > 0 && existingTldr[0].tldr !== "") {
+      console.log(
+        "Aborting getDailyTldr service, today's TLDR already exists."
+      );
       return { tldr: existingTldr[0].tldr };
     }
+
+    console.log("Generating today's TLDR...");
 
     const articles = await collection
       .find({ "createdOn.date": today })
       .sort({ "createdOn.time": -1 })
+      .limit(20)
       .toArray();
 
     if (articles.length === 0) {
       return { tldr: "Uh oh, no articles were found from today" };
     }
 
-    // Ensure createTldr is not being called multiple times while processing
-    const placeholder = {
-      createdOn: {
-        date: today,
-      },
-      tldr: "",
-    };
-    const result = await collection.insertOne(placeholder);
-
     const tldrText = await createTldr(articles);
 
-    const updateResult = await collection.updateOne(
-      { _id: result.insertedId },
-      { $set: { tldr: tldrText } }
-    );
+    await collection.insertOne({
+      createdOn: { date: today },
+      tldr: tldrText,
+    });
 
-    if (updateResult.modifiedCount !== 1) {
-      throw new Error("Failed to update tldr");
-    }
+    console.log(`Successfully generated today's TLDR!`);
 
     return { tldr: tldrText };
   } catch (error) {
@@ -91,6 +82,7 @@ async function createTldr(articles) {
       model: "gpt-4",
       messages,
     });
+
     return result.data.choices[0].message.content;
   } catch (error) {
     console.error(`Error while generating tldr: ${error.message}`);

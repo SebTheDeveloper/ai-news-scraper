@@ -50,25 +50,13 @@ router.get("/tldr", async (req, res) => {
   try {
     const dailyTldr = await getDailyTldr();
     if (!dailyTldr) {
-      throw new Error("something went wrong.");
+      throw new Error("something went wrong fetching tldr.");
     }
     res.status(200).send(dailyTldr);
   } catch (error) {
     console.log(error);
     res.status(500).send({ message: "Error fetching daily tldr", error });
   }
-});
-
-import techCrunchScraper from "../controllers/techCrunchScraper.js";
-
-router.get("/scrape", (req, res) => {
-  techCrunchScraper()
-    .then(() => {
-      res.status(200);
-    })
-    .catch((err) => {
-      res.status(500).send(err);
-    });
 });
 
 export default router;
