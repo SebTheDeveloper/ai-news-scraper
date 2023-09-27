@@ -8,27 +8,6 @@ const openai = new OpenAIApi(
   new Configuration({ apiKey: process.env.OPENAI_API_KEY })
 );
 
-// Configured for TechCrunch
-async function scrapeArticleText(url) {
-  try {
-    if (url != undefined) {
-      const html = await fetchHTML(url);
-      const $ = load(html);
-
-      const paragraphs = $(".article-content").find("p");
-      const text = paragraphs
-        .map((i, element) => $(element).text())
-        .get()
-        .join("\n");
-
-      return text;
-    }
-  } catch (error) {
-    console.error(`Error scraping article text: ${error}`);
-    return "";
-  }
-}
-
 const getAnswer = async (messages) => {
   try {
     const result = await openai.createChatCompletion({
@@ -67,14 +46,13 @@ async function processQuestion(db, question, articleID, convoHistory) {
   let answer = "";
 
   const article = await collection.findOne({ _id: new ObjectId(articleID) });
-  const fullArticleText = await scrapeArticleText(article.link);
 
   prompt += `
       Title: ${article.title}
       Source: ${article.source}
       Date: ${article.createdOn.date}
       Summary: ${article.summary}
-      Full Article Text: ${fullArticleText}
+      Full Article Text: ${article.fullText}
       `;
 
   const initialMessages = [
@@ -128,7 +106,6 @@ async function processDailyQuestion(db, question, date, convoHistory) {
     Link: ${article.link}
     Date: ${date}
     Summary: ${article.summary}
-
     `;
   }
 
@@ -144,7 +121,7 @@ async function processDailyQuestion(db, question, date, convoHistory) {
       content: `${prompt}
         Prior Conversation History: ${
           convoHistory.length > 0
-            ? formattedConvoHistory(convoHistory)
+            ? formatConvoHistory(convoHistory)
             : "no prior conversation history available."
         }
         Question: ${question}`,

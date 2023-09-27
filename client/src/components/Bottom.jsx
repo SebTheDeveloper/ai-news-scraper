@@ -1,18 +1,20 @@
 import ArticlesWrapper from "./ArticlesWrapper";
 import Tldr from "./Tldr";
+import Favorites from "./Favorites";
+import { useUserContext } from "../context/UserContext";
 
-export default function Bottom({ isTldr, isFavorites }) {
-    if (isTldr) {
+export default function Bottom({ categoryFilter }) {
+    const { selectedTab } = useUserContext();
+
+    if (selectedTab === "tldr") {
         return <Tldr />
-    }
-
-    if (isFavorites) {
-        return <>Favorites</>
+    } else if (selectedTab === "favorites") {
+        return <Favorites />
     }
     
   return (
   <div className="bottom">
-  <ArticlesWrapper />
+  <ArticlesWrapper categoryFilter={categoryFilter} />
   <div className="right-sidebar">
                     <div className="feature-card">
                         <p className="section-title">Features</p>
@@ -22,11 +24,11 @@ export default function Bottom({ isTldr, isFavorites }) {
                         </div>
                         <div className="feature">
                             <p>Ask Questions</p>
-                            <p>Inquire for more information from your AI News Buddy</p>
+                            <p>Ask News Buddy a question about any article to have a conversation</p>
                         </div>
                         <div className="feature">
-                            <p>Set Alerts *Coming Soon*</p>
-                            <p>This feature will allow you to set up notifications for your favorite topics
+                            <p>Manage Favorites</p>
+                            <p>Save any article to your favorites list. When you ask a question, that article will be added to favorites automatically in order to preserve chat history.
                             </p>
                         </div>
                     </div>

@@ -1,6 +1,6 @@
 import useTypewriterEffect from '../hooks/useTypewriterEffect';
 
-export default function AgentText({ agentText, typewriter, isLastTextNode = false, id, questionText, handleQuestionSubmit, handleInputChange }) {
+export default function AgentText({ agentText, typewriter, isLastTextNode = false, _id, questionText, handleQuestionSubmit, handleInputChange }) {
   let typedAnswer, isTyping;
 
   if (agentText && typewriter) {
@@ -17,7 +17,7 @@ export default function AgentText({ agentText, typewriter, isLastTextNode = fals
           <form
             className="agent-response"
             onSubmit={(event) =>
-              handleQuestionSubmit(questionText, id, event)
+              handleQuestionSubmit(questionText, _id, event)
             }
           >
             <input

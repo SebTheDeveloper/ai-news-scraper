@@ -7,12 +7,14 @@ export default function Tldr() {
 
   useEffect(() => {
     if (!markdownContent) {
-      getDailyTldr().then(tldr => setMarkdownContent(tldr))
-      console.log('hi')
+      getDailyTldr()
+        .then(tldr => setMarkdownContent(tldr))
     }
   }, [])
+  
 
   return <div className="markdown">
+    {!markdownContent && <div id="researching" style={{fontSize:'1.25rem'}}>Generating TLDR...</div>}
     <ReactMarkdown linkTarget={"_blank"}>
       {markdownContent}
     </ReactMarkdown>

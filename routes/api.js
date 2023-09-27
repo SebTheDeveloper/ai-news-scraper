@@ -2,7 +2,6 @@ import express from "express";
 import askQuestion from "../utils/askQuestion.js";
 import getDailyArticles from "../utils/getDailyArticles.js";
 import getDailyTldr from "../utils/getDailyTldr.js";
-import techCrunchScraper from "../controllers/techCrunchScraper.js";
 const router = express.Router();
 
 router.post("/question", async (req, res) => {
@@ -57,27 +56,6 @@ router.get("/tldr", async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).send({ message: "Error fetching daily tldr", error });
-  }
-});
-
-import clearTldr from "../utils/clearTldr.js";
-
-router.get("/deletetldr", (req, res) => {
-  clearTldr();
-  res.send({ deleted: true });
-});
-
-router.post("/scrape-and-summarize-daily-news", async (req, res) => {
-  try {
-    const isSuccessful = await techCrunchScraper();
-
-    if (!isSuccessful) {
-      throw new Error();
-    }
-    res.status(200).send({ message: "Daily news processed successfully" });
-  } catch (error) {
-    console.log(error);
-    res.status(500).send({ message: "Error fetching daily articles" });
   }
 });
 

@@ -1,12 +1,12 @@
-import React, { useState, lazy, Suspense } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import useArticlesFetch from '../hooks/useArticlesFetch';
 
 
-export default function ArticlesWrapper() {
+export default function ArticlesWrapper({ categoryFilter }) {
 
   const [articleTimeframe, setArticleTimeframe] = useState('today');
-  let [articles, setArticles, fetchArticles] = useArticlesFetch(articleTimeframe);
-  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [articles] = useArticlesFetch(articleTimeframe);
+  const [filteredArticles, setFilteredArticles] = useState([]);
 
   function handleFilterChange(e) {
     const selectedTimeframe = e.target.value;
@@ -15,16 +15,13 @@ export default function ArticlesWrapper() {
     }
   }
 
-  async function handleGetArticles() {
-    setIsButtonDisabled(!isButtonDisabled);
-    const newsIsProcessed = await fetch('http://localhost:3000/api/scrape-and-summarize-daily-news', {
-      method: 'POST'
-    });
-    if (newsIsProcessed.status === 200) {
-      setIsButtonDisabled(!isButtonDisabled);
-      await fetchArticles(articleTimeframe)
+  useEffect(() => {
+    if (categoryFilter === "") {
+      setFilteredArticles(articles)
+    } else {
+      setFilteredArticles(() => articles.filter(article => article.categories.some(category => category.toLowerCase().includes(categoryFilter.toLowerCase()))))
     }
-  }
+  }, [articles, categoryFilter])
   
   const LazyArticle = lazy(() => import('./Article'));
 
@@ -35,30 +32,18 @@ export default function ArticlesWrapper() {
         <select name='view-articles' onChange={handleFilterChange}>
           <option value='today'>Today</option>
           <option value='yesterday'>Yesterday</option>
-          <option value='favorites'>Favorites</option>
+          {/* <option value='favorites'>Favorites</option> */}
         </select>
       </div>
+      {categoryFilter && <p style={{fontSize: '0.9em', opacity: '0.9', marginBottom: '2.5rem'}}>Filtering by Category: <span style={{color: 'var(--primary)'}}>{categoryFilter}</span></p>}
       <div className='articles'>
-        {articles.map(article => (
+        {filteredArticles.map(article => (
         <Suspense key={article._id}>
-        <LazyArticle article={article} />
+          <LazyArticle article={article} />
         </Suspense>
         ))}
-        {articles.length === 0 && <>
+        {filteredArticles.length === 0 && <>
           <div>No articles found...</div>
-          {articleTimeframe === 'today' && 
-          <button
-            onClick={handleGetArticles}
-            disabled={isButtonDisabled}
-            style={{
-              pointerEvents: isButtonDisabled ? 'none' : 'auto',
-              animation: isButtonDisabled ? 'loading 2s ease-in-out infinite' : 'none',
-              maxWidth: '300px',
-              boxShadow: 'inset 0 0 16px rgb(0,0,0)'
-            }}
-          >
-            {isButtonDisabled ? `Processing Today's News with AI...` :`Scrape and Summarize Today's Articles`}
-          </button>}
         </>}
       </div>
     </div>

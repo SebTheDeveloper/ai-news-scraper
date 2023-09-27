@@ -3,7 +3,7 @@ import UserText from "./UserText";
 
 export default function Convo({
   questionText,
-  id,
+  article,
   userSubmittedText,
   agentSubmittedText,
   handleQuestionSubmit,
@@ -25,7 +25,7 @@ export default function Convo({
             typewriter={isLastTextNode ? true : false}
             isLastTextNode={isLastTextNode}
             questionText={questionText}
-            id={id}
+            _id={article._id}
             handleQuestionSubmit={handleQuestionSubmit}
             handleInputChange={handleInputChange}
           />

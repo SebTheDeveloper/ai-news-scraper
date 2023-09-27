@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import getArticles from '../utils/getArticles';
+import { useState, useEffect } from "react";
+import getArticles from "../utils/getArticles";
 
 export default function useArticlesFetch(articleTimeframe) {
   const [articles, setArticles] = useState([]);
