@@ -2,12 +2,14 @@ import { getDb } from "../models/db.js";
 
 export default async function getDailyArticles(filter) {
   const now = new Date();
-  let date;
+
   if (filter === "yesterday") {
-    date = `${now.getMonth() + 1}-${now.getDate() - 1}-${now.getFullYear()}`;
-  } else {
-    date = `${now.getMonth() + 1}-${now.getDate()}-${now.getFullYear()}`;
+    now.setDate(String(now.getDate() - 1).padStart(2, "0"));
   }
+
+  const date = `${String(now.getMonth() + 1).padStart(2, "0")}-${String(
+    now.getDate()
+  ).padStart(2, "0")}-${String(now.getFullYear())}`;
 
   let articles;
 

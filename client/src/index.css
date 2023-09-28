@@ -517,9 +517,9 @@ button:hover {
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 1.5rem 4rem;
+    padding: 1rem 4rem;
     font-size: 0.95rem;
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 0.8);
   }
   ul {
     padding: 2rem 2rem 1rem 2rem;
@@ -576,7 +576,8 @@ button:hover {
     margin-bottom: 0.5rem;
   }
   .about-snippet-mobile {
-    padding: 1.5rem;
+    font-size: 0.8em;
+    padding: 1rem 1.5rem;
   }
   .no-favorites {
     flex-direction: column;
