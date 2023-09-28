@@ -74,6 +74,10 @@ a {
   font-size: 1.5rem;
 }
 
+.about-snippet-mobile {
+  display: none;
+}
+
 .logo,
 ul {
   display: grid;
@@ -229,6 +233,8 @@ button {
   margin-right: 0.7rem;
   font-size: 1.6rem;
   font-weight: 300;
+  margin-top: 1.5rem;
+  margin-right: 1rem;
 }
 
 .view-articles select {
@@ -462,6 +468,12 @@ button:hover {
   line-height: 3rem;
 }
 
+.no-favorites {
+  display: flex;
+  gap: 0.5em;
+  align-items: center;
+}
+
 @media (max-width: 1200px) {
   .main {
     position: relative;
@@ -500,6 +512,15 @@ button:hover {
   .logo {
     grid-template-columns: 1fr 1fr;
   }
+  .about-snippet-mobile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1.5rem 4rem;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.9);
+  }
   ul {
     padding: 2rem 2rem 1rem 2rem;
     margin: 0;
@@ -530,6 +551,7 @@ button:hover {
   }
   .articles-section {
     max-width: 100vw;
+    margin-top: -1.25rem;
   }
   .article {
     max-width: 100%;
@@ -549,7 +571,27 @@ button:hover {
   }
 }
 
+@media (max-width: 600px) {
+  #welcome-message {
+    margin-bottom: 0.5rem;
+  }
+  .about-snippet-mobile {
+    padding: 1.5rem;
+  }
+  .no-favorites {
+    flex-direction: column;
+    gap: 0;
+  }
+  .no-favorites :last-child {
+    margin-left: auto;
+  }
+}
+
 @media (max-width: 450px) {
+  .sidebar svg {
+    margin-right: 0.3em;
+    width: 14px;
+  }
   .markdown {
     padding: 1.5rem;
   }

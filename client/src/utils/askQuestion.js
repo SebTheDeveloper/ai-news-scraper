@@ -1,6 +1,6 @@
 export default async function askQuestion(question, articleID, convoHistory) {
   try {
-    const response = await fetch("http://localhost:3000/api/question", {
+    const response = await fetch("https://webxpert.io/api/question", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

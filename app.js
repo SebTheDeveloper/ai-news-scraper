@@ -20,7 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-cron.schedule("0 8 * * *", async () => {
+cron.schedule("0 7 * * *", async () => {
   try {
     const scrapedAndProcessed = await techCrunchScraper();
     const tldr = await getDailyTldr();
