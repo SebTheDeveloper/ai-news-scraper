@@ -32,7 +32,7 @@ export default function Article({ article }) {
 
       setConvoHistory(convo)
     }
-  }, [])
+  }, [convo])
 
   function handleInputChange(event) {
     setQuestionText(event.target.value);

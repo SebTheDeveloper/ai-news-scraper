@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-export default function useTypewriterEffect(initialText, speed = 10) {
-  const [typedAnswer, setTypedAnswer] = useState('');
+export default function useTypewriterEffect(initialText, speed = 5) {
+  const [typedAnswer, setTypedAnswer] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTyping, setIsTyping] = useState(true);
 

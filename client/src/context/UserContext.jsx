@@ -33,8 +33,8 @@ export default function UserContextProvider({ children }) {
           favorite.convo = convoHistory
         }
         updatedFavorites.push(favorite)
+        console.log(favorite)
       }
-
       return updatedFavorites
     })
   }

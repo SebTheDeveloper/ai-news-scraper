@@ -4,12 +4,12 @@ export default async function getDailyArticles(filter) {
   const now = new Date();
 
   if (filter === "yesterday") {
-    now.setDate(String(now.getDate() - 1).padStart(2, "0"));
+    now.setDate(String(now.getDate() - 1));
   }
 
-  const date = `${String(now.getMonth() + 1).padStart(2, "0")}-${String(
-    now.getDate()
-  ).padStart(2, "0")}-${String(now.getFullYear())}`;
+  const date = `${String(now.getMonth() + 1)}-${String(now.getDate())}-${String(
+    now.getFullYear()
+  )}`;
 
   let articles;
 

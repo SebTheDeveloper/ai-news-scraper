@@ -6,7 +6,7 @@ import dashboardRouter from "./routes/dashboard.js";
 import apiRouter from "./routes/api.js";
 import path from "path";
 import { fileURLToPath } from "url";
-import startTelegramBot from "./controllers/telegramBot.js";
+// import startTelegramBot from "./controllers/telegramBot.js";
 import getDailyTldr from "./utils/getDailyTldr.js";
 import techCrunchScraper from "./controllers/techCrunchScraper.js";
 

@@ -593,6 +593,13 @@ button:hover {
     margin-right: 0.3em;
     width: 14px;
   }
+  .articles form {
+    gap: 0;
+    justify-content: space-around;
+  }
+  .agent-response input {
+    padding: 0rem;
+  }
   .markdown {
     padding: 1.5rem;
   }
