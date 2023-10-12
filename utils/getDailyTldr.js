@@ -24,7 +24,7 @@ export default async function getDailyTldr() {
       return { tldr: existingTldr[0].tldr };
     }
 
-    console.log("Generating today's TLDR...");
+    console.log("Searching for today's TLDR...");
 
     const articles = await collection
       .find({ "createdOn.date": today })
@@ -33,7 +33,9 @@ export default async function getDailyTldr() {
       .toArray();
 
     if (articles.length === 0) {
-      return { tldr: "Uh oh, no articles were found from today" };
+      return {
+        tldr: "Uh oh, no articles were found from today. \n\n How can you have any pudding if you don't eat your meat?",
+      };
     }
 
     const tldrText = await createTldr(articles);

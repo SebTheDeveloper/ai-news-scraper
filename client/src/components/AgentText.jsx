@@ -1,9 +1,9 @@
 import useTypewriterEffect from '../hooks/useTypewriterEffect';
 
-export default function AgentText({ existingChat, agentText, isLastTextNode = false, _id, questionText, handleQuestionSubmit, handleInputChange }) {
+export default function AgentText({ isFromLocalStorage, agentText, isLastTextNode = false, _id, questionText, handleQuestionSubmit, handleInputChange }) {
   let typedAnswer, isTyping;
 
-  if (agentText && isLastTextNode) {
+  if (agentText && isLastTextNode && !isFromLocalStorage) {
     ({ typedAnswer, isTyping } = useTypewriterEffect(agentText));
   }
 
@@ -11,7 +11,7 @@ export default function AgentText({ existingChat, agentText, isLastTextNode = fa
     return (
       <>
         <div id='agent' style={{ color: 'var(--primary)', animation: isLastTextNode ? 'fade-in 0.3s ease-in-out' : "none" }}>
-          { isLastTextNode ? typedAnswer : agentText }
+          { isLastTextNode && !isFromLocalStorage ? typedAnswer : agentText }
         </div>
         {isLastTextNode && !isTyping &&
           <form

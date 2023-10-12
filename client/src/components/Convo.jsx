@@ -4,7 +4,7 @@ import { useUserContext } from "../context/UserContext";
 import { useEffect } from "react";
 
 export default function Convo({
-  existingChat,
+  isFromLocalStorage,
   questionText,
   article,
   userSubmittedText,
@@ -35,13 +35,13 @@ export default function Convo({
 
     return (
       <div key={index} style={{display: 'flex', flexDirection: 'column'}}>
-        <UserText userText={userText} existingChat={existingChat} />
+        <UserText userText={userText} />
         {!agentSubmittedText[index] && (
           <div id={"researching"}>researching...</div>
         )}
         {agentSubmittedText[index] && (
           <AgentText
-            existingChat={existingChat}
+            isFromLocalStorage={isFromLocalStorage}
             agentText={agentSubmittedText[index]}
             isLastTextNode={isLastTextNode}
             questionText={questionText}

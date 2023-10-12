@@ -8,6 +8,7 @@ export default function Article({ article }) {
   const [userSubmittedText, setUserSubmittedText] = useState([]);
   const [agentSubmittedText, setAgentSubmittedText] = useState([]);
   const [convoHistory, setConvoHistory] = useState([]);
+  const [isFromLocalStorage, setIsFromLocalStorage] = useState(false);
   const { toggleFavorite, itemInFavorites, getKeyOfFavorite } = useUserContext()
 
   let { _id, title, createdOn, source, summary, categories, link, convo = null } = article;
@@ -25,6 +26,7 @@ export default function Article({ article }) {
 
     if (userSubmittedText.length === 0 && convo != null) {
       setUserSubmittedText(convo.userSubmittedText);
+      setIsFromLocalStorage(true);
       
       if (convo.agentSubmittedText.length > 0) {
         setAgentSubmittedText(convo.agentSubmittedText)
@@ -46,6 +48,7 @@ export default function Article({ article }) {
 
     setUserSubmittedText([...userSubmittedText, questionText]);
     const response = await askQuestion(question, articleID, convoHistory);
+    setIsFromLocalStorage(false);
     setQuestionText('');
     setAgentSubmittedText([...agentSubmittedText, response]);
     setConvoHistory(currHistory => {
@@ -83,7 +86,7 @@ export default function Article({ article }) {
           </>}
           <div className="convo">
             <Convo
-              existingChat={convo}
+              isFromLocalStorage={isFromLocalStorage}
               questionText={questionText}
               article={article}
               userSubmittedText={userSubmittedText}
