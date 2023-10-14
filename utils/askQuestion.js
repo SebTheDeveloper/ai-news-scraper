@@ -22,6 +22,8 @@ const getAnswer = async (messages) => {
 function formatConvoHistory({ agentSubmittedText, userSubmittedText }) {
   let formattedMessages = [];
 
+  if (userSubmittedText?.length < 1) return formattedMessages;
+
   for (let i = 0; i < userSubmittedText.length; i++) {
     formattedMessages.push({
       role: "user",
@@ -65,7 +67,7 @@ async function processQuestion(db, question, articleID, convoHistory) {
       content: `${prompt}`,
     },
   ];
-  if (convoHistory.userSubmittedText.length > 0) {
+  if (convoHistory.userSubmittedText?.length > 0) {
     const priorConvo = formatConvoHistory(convoHistory);
     for (let record of priorConvo) {
       initialMessages.push(record);
@@ -78,7 +80,6 @@ async function processQuestion(db, question, articleID, convoHistory) {
   });
 
   answer = await getAnswer(initialMessages);
-
   return answer;
 }
 

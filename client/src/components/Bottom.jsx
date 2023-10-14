@@ -48,7 +48,7 @@ export default function Bottom({ categoryFilter }) {
                             <p>Manage Favorites</p>
                             <p>Save any article to your favorites list. When you ask a question, that article will be added to favorites automatically in order to preserve chat history.
                             </p>
-                            <p>When you remove an article from favorites, it will automatically forget the chat history. To re-save your chat, simply send another message to the chatbot and the history will save.</p>
+                            <p>Go back to your favorites later to continue a conversation.</p>
                         </div>
                         <div className="feature">
                             <p>Filter Articles by Category</p>
