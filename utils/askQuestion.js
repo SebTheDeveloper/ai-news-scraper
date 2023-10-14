@@ -19,19 +19,21 @@ const getAnswer = async (messages) => {
   }
 };
 
-function formatConvoHistory(convoHistory) {
+function formatConvoHistory({ agentSubmittedText, userSubmittedText }) {
   let formattedMessages = [];
 
-  for (let record of convoHistory) {
+  for (let i = 0; i < userSubmittedText.length; i++) {
     formattedMessages.push({
       role: "user",
-      content: record.user,
+      content: userSubmittedText[i],
     });
 
-    formattedMessages.push({
-      role: "assistant",
-      content: record.agent,
-    });
+    if (agentSubmittedText[i]) {
+      formattedMessages.push({
+        role: "assistant",
+        content: agentSubmittedText[i],
+      });
+    }
   }
 
   return formattedMessages;
@@ -63,8 +65,7 @@ async function processQuestion(db, question, articleID, convoHistory) {
       content: `${prompt}`,
     },
   ];
-
-  if (convoHistory.length > 0) {
+  if (convoHistory.userSubmittedText.length > 0) {
     const priorConvo = formatConvoHistory(convoHistory);
     for (let record of priorConvo) {
       initialMessages.push(record);
