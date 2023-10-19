@@ -5,13 +5,14 @@ import { useUserContext } from "../context/UserContext";
 
 export default function Article({ article }) {
   const [questionText, setQuestionText] = useState('');
-  const [userSubmittedText, setUserSubmittedText] = useState([]);
-  const [agentSubmittedText, setAgentSubmittedText] = useState([]);
-  const [convoHistory, setConvoHistory] = useState([]);
+  const [convoHistory, setConvoHistory] = useState({
+    userSubmittedText: [],
+    agentSubmittedText: []
+  });
   const [isFromLocalStorage, setIsFromLocalStorage] = useState(false);
-  const { toggleFavorite, itemInFavorites, getKeyOfFavorite } = useUserContext()
+  const { toggleFavorite, itemInFavorites, updateConvoHistory, getKeyOfFavorite } = useUserContext()
 
-  let { _id, title, createdOn, source, summary, categories, link, convo = null } = article;
+  let { _id, title, createdOn, source, summary, categories, link} = article;
 
   const itemIsFavorited = itemInFavorites(article);
 
@@ -19,22 +20,12 @@ export default function Article({ article }) {
     if (itemIsFavorited) {
       const existingConvo = getKeyOfFavorite("convo", article)
 
-      if (existingConvo && !convo) {
-        convo = existingConvo
+      if (existingConvo?.userSubmittedText?.length > 0 && convoHistory.userSubmittedText.length === 0) {
+        setIsFromLocalStorage(true)
+        setConvoHistory(existingConvo)
       }
     }
-
-    if (userSubmittedText.length === 0 && convo != null) {
-      setUserSubmittedText(convo.userSubmittedText);
-      setIsFromLocalStorage(true);
-      
-      if (convo.agentSubmittedText.length > 0) {
-        setAgentSubmittedText(convo.agentSubmittedText)
-      }
-
-      setConvoHistory(convo)
-    }
-  }, [convo])
+  }, [])
 
   function handleInputChange(event) {
     setQuestionText(event.target.value);
@@ -46,21 +37,49 @@ export default function Article({ article }) {
       return
     }
 
-    setUserSubmittedText([...userSubmittedText, questionText]);
-    const response = await askQuestion(question, articleID, convoHistory);
-    setIsFromLocalStorage(false);
     setQuestionText('');
-    setAgentSubmittedText([...agentSubmittedText, response]);
-    setConvoHistory(currHistory => {
-      if (currHistory.length > 0) {
-        return [...currHistory, {
-          user: questionText,
-          agent: response
-        }]
-      } else {
-        return [{user: questionText, agent: response}]
-      }
-    })
+
+    setConvoHistory(currHistory => ({
+      userSubmittedText: [...currHistory.userSubmittedText, question],
+      agentSubmittedText: currHistory.agentSubmittedText
+    }));
+
+    const response = await askQuestion(question, articleID, {
+      userSubmittedText: [...convoHistory.userSubmittedText, question],
+      agentSubmittedText: convoHistory.agentSubmittedText
+    });
+    setIsFromLocalStorage(false);
+    
+    setConvoHistory(currHistory => ({
+      userSubmittedText: currHistory.userSubmittedText,
+      agentSubmittedText: [...currHistory.agentSubmittedText, response]
+    }));
+
+    updateConvoHistory(article, {
+      userSubmittedText: [...convoHistory.userSubmittedText, question],
+      agentSubmittedText: [...convoHistory.agentSubmittedText, response],
+    });
+    
+  }
+
+  function handleToggleFavorite() {
+    if (convoHistory.userSubmittedText?.length > 0) {
+      toggleFavorite({
+        ...article,
+        convo: {
+          userSubmittedText: convoHistory.userSubmittedText,
+          agentSubmittedText: convoHistory.agentSubmittedText
+        }
+      })
+    } else {
+      toggleFavorite({
+        ...article,
+        convo: {
+          userSubmittedText: [],
+          agentSubmittedText: []
+        }
+      })
+    }
   }
 
   return (
@@ -74,7 +93,7 @@ export default function Article({ article }) {
       </div>
       <div className="article-card-bottom">
         <div className="ask-question">
-          {userSubmittedText.length === 0 && <>
+          {convoHistory.userSubmittedText.length === 0 && <>
             <form onSubmit={event => handleQuestionSubmit(questionText, _id, event)}>
               <input
                 type="text"
@@ -89,14 +108,14 @@ export default function Article({ article }) {
               isFromLocalStorage={isFromLocalStorage}
               questionText={questionText}
               article={article}
-              userSubmittedText={userSubmittedText}
-              agentSubmittedText={agentSubmittedText}
+              userSubmittedText={convoHistory.userSubmittedText}
+              agentSubmittedText={convoHistory.agentSubmittedText}
               handleQuestionSubmit={handleQuestionSubmit}
               handleInputChange={handleInputChange} />
           </div>
         </div>
         <div className='article-icons'>
-          <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' onClick={() => toggleFavorite(article)}>
+          <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' onClick={handleToggleFavorite}>
             <title>Add to Favorites</title>
             {itemIsFavorited
               ?

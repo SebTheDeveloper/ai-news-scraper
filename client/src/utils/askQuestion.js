@@ -1,6 +1,6 @@
 export default async function askQuestion(question, articleID, convoHistory) {
   try {
-    const response = await fetch("https://webxpert.io/api/question", {
+    const response = await fetch("http://localhost:3000/api/question", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -8,14 +8,12 @@ export default async function askQuestion(question, articleID, convoHistory) {
       body: JSON.stringify({
         question,
         articleID,
-        convoHistory: convoHistory
-          ? convoHistory
-          : "no conversation history found.",
+        convoHistory,
       }),
     });
 
     if (response.ok) {
-      const jsonResponse = await response.json();
+      const jsonResponse = await response.json();    
       return jsonResponse.answer;
     } else {
       throw new Error("Ask Question Request failed: " + response.status);

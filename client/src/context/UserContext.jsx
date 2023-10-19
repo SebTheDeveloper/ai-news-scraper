@@ -14,29 +14,45 @@ export default function UserContextProvider({ children }) {
     else return false
   }
 
-  function addToFavorites(item, convoHistory = null) {
-    if (!itemInFavorites(item)) {
-      if (convoHistory) {
-        updateConvoHistory(item, convoHistory)
-      }
-
+  function addToFavorites(newFavorite) {
       setfavorites(currFavorites => [...currFavorites, item])
-    }
   }
 
-  function updateConvoHistory(item, convoHistory) {
-    setfavorites(currFavorites => {
-      const updatedFavorites = []
-      
-      for (const favorite of currFavorites) {
-        if (favorite._id === item._id) {
-          favorite.convo = convoHistory
+  function updateConvoHistory(item, convoHistory = []) {
+    if (!itemInFavorites(item)) {
+      let newFavorite;
+      if (convoHistory.userSubmittedText?.length > 0) {
+        newFavorite = {
+          ...item,
+          convo: convoHistory
         }
-        updatedFavorites.push(favorite)
+      } else {
+        newFavorite = {
+          ...item,
+          convo: {
+            userSubmittedText: [],
+            agentSubmittedText: []
+          }
+        }
       }
-      return updatedFavorites
-    })
-  }
+      
+      setfavorites(currFavorites => {
+        return [...currFavorites, newFavorite]
+      })
+    } else {
+      setfavorites((currFavorites) => {
+        return currFavorites.map((favorite) => {
+          if (favorite._id === item._id) {
+            return {
+              ...favorite,
+              convo: convoHistory
+            };
+          }
+          return favorite;
+        });
+      });
+    }
+  }  
 
   function getKeyOfFavorite(key, item) {
     if (!key || !item) return null

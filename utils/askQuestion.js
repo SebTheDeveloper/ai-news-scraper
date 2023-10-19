@@ -69,8 +69,11 @@ async function processQuestion(db, question, articleID, convoHistory) {
   ];
   if (convoHistory.userSubmittedText?.length > 0) {
     const priorConvo = formatConvoHistory(convoHistory);
-    for (let record of priorConvo) {
-      initialMessages.push(record);
+
+    if (priorConvo.length > 0) {
+      for (let record of priorConvo) {
+        initialMessages.push(record);
+      }
     }
   }
 
