@@ -1,11 +1,7 @@
 import summarize from "../utils/summarize.js";
 import parseCategoriesFromSummary from "../utils/parseCategoriesFromSummary.js";
 
-export default async function scrapeAndProcessArticles(
-  db,
-  articles,
-  scrapeArticleText
-) {
+export default async function scrapeAndProcessArticles(db, articles) {
   const collection = db.db.collection("dashboard");
   const matchingDocuments = await collection.find().toArray();
   let newArticlesCount = 0;
@@ -57,4 +53,24 @@ export default async function scrapeAndProcessArticles(
     });
 
   return newArticlesCount;
+}
+
+async function scrapeArticleText(url) {
+  try {
+    if (url != undefined) {
+      const html = await fetchHTML(url);
+      const $ = load(html);
+
+      const paragraphs = $(".article-content").find("p");
+      const text = paragraphs
+        .map((i, element) => $(element).text())
+        .get()
+        .join("\n");
+
+      return text;
+    }
+  } catch (error) {
+    console.error(`Error scraping article text: ${error}`);
+    return "";
+  }
 }

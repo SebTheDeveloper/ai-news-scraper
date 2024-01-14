@@ -28,26 +28,6 @@ async function scrapeTechCrunch(url) {
   return articles;
 }
 
-async function scrapeArticleText(url) {
-  try {
-    if (url != undefined) {
-      const html = await fetchHTML(url);
-      const $ = load(html);
-
-      const paragraphs = $(".article-content").find("p");
-      const text = paragraphs
-        .map((i, element) => $(element).text())
-        .get()
-        .join("\n");
-
-      return text;
-    }
-  } catch (error) {
-    console.error(`Error scraping article text: ${error}`);
-    return "";
-  }
-}
-
 const articles = await scrapeTechCrunch(techCrunchUrl);
 
 export default async function techCrunchScraper() {
@@ -55,8 +35,7 @@ export default async function techCrunchScraper() {
     const db = getDb();
     const newArticlesCount = await scrapeAndProcessArticles(
       db,
-      articles,
-      scrapeArticleText
+      articles
     );
     console.log(`Added ${newArticlesCount} ${source} articles to the database`);
     return true;

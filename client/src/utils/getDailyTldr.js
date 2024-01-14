@@ -1,6 +1,6 @@
 export default async function getDailyTldr() {
   try {
-    const response = await fetch(`https://webxpert.io/api/tldr`);
+    const response = await fetch(`/demos/ai-news-buddy/api/tldr`);
 
     if (!response.ok) {
       throw new Error(`An error occurred: ${response.statusText}`);
